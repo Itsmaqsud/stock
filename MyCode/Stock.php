@@ -6,9 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Stock extends Model
 {
+	// Указываем таблицу
 	protected $table = 'stock';
-
+	
+	// Отключаем время created & updated 
 	public $timestamps = false;
+	
+	// Даем разрешение для массовой записи
 	protected $fillable = [
 		'id',
 		'name',
