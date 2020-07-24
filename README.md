@@ -10,15 +10,16 @@ https://bot.evocode.pw/example
 
 1. Создаем таблицу в базе данных:
 
-	```sql
+    ```sql
     CREATE TABLE `stock` (
         `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
         `name` varchar(255) NOT NULL,
         `start_at` int(11) NOT NULL,
         `finish_at` int(11) NOT NULL,
-        `status` varchar(5) NOT NULL
+        `status` varchar(5) NOT NULL,
+    `url` varchar(255) NOT NULL,
     ) ENGINE=InnoDB;
-	```
+    ```
 
 2. Создаем класс для подключения к базе данных:
 
@@ -47,7 +48,7 @@ https://bot.evocode.pw/example
 
 3. Создаем контроллер для нашего скрипта:
 
-	```php
+    ```php
     <?
     namespace App\Http\Controllers;
 
@@ -122,7 +123,7 @@ https://bot.evocode.pw/example
         }
     }
     ?>
-	```
+    ```
 
 3. Указываем в routes маршруты:
 
@@ -131,6 +132,39 @@ https://bot.evocode.pw/example
     Route::get('/import', 'StockController@import')->name('stockImport');
     // На данной странице выводим данные из БД, котоорые импортировали из CSV
     Route::get('/example', 'StockController@index')->name('stockIndex');
+    ```
+4. Выводим список ссылок
+
+    ```html
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Example</title>
+    </head>
+    <body>
+        <table border="1">
+            <caption>Вывод из БД</caption>
+            <tr>
+                <th>ID</th>
+                <th>Название акции</th>
+                <th>Дата начала</th>
+                <th>Дата завершения</th>
+                <th>Статус</th>
+                <th>URL</th>
+            </tr>
+            @foreach($data as $d)
+            <tr>
+                <td>{{$d->id}}</td>
+                <td>{{$d->name}}</td>
+                <td>{{date('d-m-Y', $d->start_at)}}</td>
+                <td>{{date('d-m-Y', $d->finish_at)}}</td>
+                <td>{{$d->status}}</td>
+                <td>{{$d->url}}</td>
+            </tr>
+            @endforeach
+        </table>
+    </body>
+    </html>
     ```
 
 ## Описание
